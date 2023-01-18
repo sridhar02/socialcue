@@ -11,6 +11,19 @@ import ResourceCard from '../components/ResourceCard';
 import UpdateCampaignModal from '../components/UpdateCampaignModal';
 import campaignsData from './../lib/data/campaigns.json';
 
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  // const campaigns = await prisma.
+  return {
+    props: {
+      campaignsData
+    }
+  };
+};
+
 const Campaigns = () => {
   const [campaigns, setCampaigns] = useState(campaignsData);
   const [addCampaignOpen, setAddCampaignOpen] = useState(false);

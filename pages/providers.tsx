@@ -10,9 +10,23 @@ import ResourceAction from '../components/ResourceAction';
 import ResourceCard from '../components/ResourceCard';
 import UpdateProviderModal from '../components/UpdateProviderModal';
 import { providerOptions } from '../lib/providers';
-import providers from './../lib/data/providers.json';
 
-const Providers = () => {
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient({
+  log:['query']
+})
+
+export const getServerSideProps:GetServerSideProps = async () =>{
+  const providers = await prisma.provider.findMany()
+  return {
+    props:{
+      providers: JSON.parse(JSON.stringify(providers))
+    }
+  }
+}
+
+const Providers = ({providers}) => {
   const [socialProviders, setSocialProviders] = useState(providers);
   const [addProviderOpen, setAddProviderOpen] = useState(false);
   const [providerToEdit, setProviderToEdit] = useState(null);
